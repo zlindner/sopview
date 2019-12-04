@@ -4,6 +4,11 @@ import styled from 'styled-components';
 import Document from './document';
 
 const Wrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const Grid = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 225px);
     grid-gap: 25px;
@@ -21,13 +26,14 @@ const Wrapper = styled.div`
 `;
 
 const Documents = () => {
-
     return (
         <Wrapper>
-            <Document />
-            <Document />
-            <Document />
-            <Document />
+            <Grid>
+                <Document />
+                <Document />
+                <Document />
+                <Document />
+            </Grid>
         </Wrapper>
     );
 }
