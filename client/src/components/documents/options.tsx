@@ -56,10 +56,6 @@ const Item = styled.li`
         opacity: 0.54;
         margin-right: 20px;
     }
-
-    & > span {
-        padding-top: 2.5px;
-    }
 `;
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
