@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { Document as PDF, Page } from 'react-pdf';
 import { MoonLoader } from 'react-spinners';
 
+import Options from './options';
+
 const Wrapper = styled.div`
     width: 225px;
     height: 250px;
     position: relative;
-    cursor: pointer;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: all 0.2s ease-in-out;
@@ -38,28 +39,6 @@ const Filename = styled.span`
     white-space: nowrap;
 `;
 
-const Options = styled.div`
-    width: 28px;
-    height: 28px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 8px;
-    right: -8px;
-    border-radius: 50%;
-    z-index: 10;
-
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.08);
-    }
-
-    & > img {
-        width: 18px;
-        opacity: 0.54;
-    }
-`;
-
 const Loader = `
     display: block;
     margin: 100px auto;
@@ -73,10 +52,7 @@ const Document = () => {
         <Wrapper>
             <PDF file={sop} renderMode='svg' loading={<MoonLoader size={30} css={Loader} />}>
                 <Filename>filename.pdf</Filename>
-
-                <Options>
-                    <img src={require('../../assets/document_options.svg')} alt=''></img>
-                </Options>
+                <Options />
 
                 <Page pageIndex={1} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
             </PDF>

@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Document from './document';
+import Rename from './rename';
+import Delete from './delete';
 
 const Wrapper = styled.div`
     display: flex;
@@ -34,6 +36,9 @@ const Documents = () => {
                 <Document />
                 <Document />
             </Grid>
+
+            <Rename />
+            <Delete />
         </Wrapper>
     );
 }

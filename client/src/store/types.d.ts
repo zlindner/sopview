@@ -8,6 +8,6 @@ declare module 'SopviewTypes' {
 
 declare module 'typesafe-actions' {
     interface Types {
-        Action: ActionType<typeof import('./action').default>;
+        RootAction: ActionType<typeof import('./action').default>;
     }
 }
