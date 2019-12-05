@@ -31,10 +31,10 @@ const Documents = () => {
     return (
         <Wrapper>
             <Grid>
-                <Document />
-                <Document />
-                <Document />
-                <Document />
+                <Document filename={'file1.pdf'} />
+                <Document filename={'file2.pdf'} />
+                <Document filename={'file3.pdf'} />
+                <Document filename={'file4.pdf'} />
             </Grid>
 
             <Rename />

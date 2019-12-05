@@ -67,7 +67,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     openDelete: actions.openDelete
 }, dispatch);
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapDispatchToProps> & {
+    filename: string;
+};
 
 type State = {
     open: boolean;
@@ -80,12 +82,12 @@ class Options extends Component<Props, State> {
 
     onRenameClicked = () => {
         this.setState({ open: false });
-        this.props.openRename();
+        this.props.openRename(this.props.filename);
     }
 
     onDeleteClicked = () => {
         this.setState({ open: false });
-        this.props.openDelete();
+        this.props.openDelete(this.props.filename);
     }
 
     render() {

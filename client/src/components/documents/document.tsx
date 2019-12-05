@@ -45,14 +45,18 @@ const Loader = `
     vertical-align: middle;
 `;
 
+type Props = {
+    filename: string;
+}
+
 const sop = require('../../assets/qa001_rev03.pdf'); // TODO load from aws
 
-const Document = () => {
+const Document = (props: Props) => {
     return (
         <Wrapper>
             <PDF file={sop} renderMode='svg' loading={<MoonLoader size={30} css={Loader} />}>
-                <Filename>filename.pdf</Filename>
-                <Options />
+                <Filename>{props.filename}</Filename>
+                <Options filename={props.filename} />
 
                 <Page pageIndex={1} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
             </PDF>
