@@ -1,6 +1,9 @@
 import { action } from 'typesafe-actions';
 import { Dispatch } from 'redux';
-import { OPEN_RENAME, CLOSE_RENAME, OPEN_DELETE, CLOSE_DELETE } from '../constants';
+import { OPEN_VIEWER, CLOSE_VIEWER, OPEN_RENAME, CLOSE_RENAME, OPEN_DELETE, CLOSE_DELETE } from '../constants';
+
+export const openViewer = (filename: string) => action(OPEN_VIEWER, filename);
+export const closeViewer = () => action(CLOSE_VIEWER);
 
 export const openRename = (filename: string) => action(OPEN_RENAME, filename);
 export const closeRename = () => action(CLOSE_RENAME);

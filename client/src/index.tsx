@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { createGlobalStyle } from 'styled-components';
+import ReactModal from 'react-modal';
 
 import store, { history } from './store';
 import routes from './routes';
@@ -61,6 +62,8 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 `;
+
+ReactModal.setAppElement('body');
 
 render(
     <Provider store={store}>

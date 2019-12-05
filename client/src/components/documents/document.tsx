@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { Document as PDF, Page } from 'react-pdf';
 import { MoonLoader } from 'react-spinners';
 
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/documents';
+
 import Options from './options';
 
 const Wrapper = styled.div`
@@ -45,7 +49,11 @@ const Loader = `
     vertical-align: middle;
 `;
 
-type Props = {
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
+    openViewer: actions.openViewer,
+}, dispatch);
+
+type Props = ReturnType<typeof mapDispatchToProps> & {
     filename: string;
 }
 
@@ -53,7 +61,7 @@ const sop = require('../../assets/qa001_rev03.pdf'); // TODO load from aws
 
 const Document = (props: Props) => {
     return (
-        <Wrapper>
+        <Wrapper onClick={() => props.openViewer(props.filename)}>
             <PDF file={sop} renderMode='svg' loading={<MoonLoader size={30} css={Loader} />}>
                 <Filename>{props.filename}</Filename>
                 <Options filename={props.filename} />
@@ -64,4 +72,4 @@ const Document = (props: Props) => {
     );
 }
 
-export default Document;
+export default connect(null, mapDispatchToProps)(Document);

@@ -76,12 +76,19 @@ class Options extends Component<Props, State> {
         open: false
     }
 
-    onRenameClicked = () => {
+    onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        this.setState({ open: !this.state.open });
+    }
+
+    onRenameClicked = (e: React.MouseEvent<HTMLLIElement>) => {
+        e.stopPropagation();
         this.setState({ open: false });
         this.props.openRename(this.props.filename);
     }
 
-    onDeleteClicked = () => {
+    onDeleteClicked = (e: React.MouseEvent<HTMLLIElement>) => {
+        e.stopPropagation();
         this.setState({ open: false });
         this.props.openDelete(this.props.filename);
     }
@@ -109,7 +116,7 @@ class Options extends Component<Props, State> {
                     </List>
                 )}>
 
-                <Dots onClick={() => this.setState({ open: !this.state.open })}>
+                <Dots onClick={this.onClick}>
                     <img src={require('../../assets/documents/options.svg')} alt='' />
                 </Dots>
             </Popover>

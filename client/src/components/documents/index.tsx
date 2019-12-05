@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Document from './document';
+import Viewer from './viewer';
 import Rename from './rename';
 import Delete from './delete';
 
@@ -37,6 +38,7 @@ const Documents = () => {
                 <Document filename={'file4.pdf'} />
             </Grid>
 
+            <Viewer />
             <Rename />
             <Delete />
         </Wrapper>
