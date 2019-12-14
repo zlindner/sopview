@@ -10,7 +10,7 @@ export const closeRename = () => action(CLOSE_RENAME);
 export const confirmRename = (oldFilename: string, newFilename: string) => {
     return (dispatch: Dispatch) => {
         // TODO rename, need email here to find file in db
-        if (oldFilename !== newFilename) {
+        if (newFilename !== '' && oldFilename !== newFilename) {
             console.log('changing ' + oldFilename + ' to ' + newFilename);
         }
 

@@ -66,7 +66,7 @@ const Document = (props: Props) => {
                 <Filename>{props.filename}</Filename>
                 <Options filename={props.filename} />
 
-                <Page pageIndex={1} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
+                <Page pageIndex={0} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
             </PDF>
         </Wrapper >
     );

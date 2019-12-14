@@ -108,6 +108,7 @@ class Rename extends Component<Props, State> {
             <StyledModal
                 isOpen={this.props.renameOpen}
                 onRequestClose={this.onClose}
+                style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
             >
                 <Text>Rename</Text>
 

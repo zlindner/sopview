@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+import { Document as PDF, Page } from 'react-pdf';
+import { MoonLoader } from 'react-spinners';
 
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
@@ -8,8 +10,8 @@ import Types from 'SopviewTypes';
 import * as actions from '../../actions/documents';
 
 const StyledModal = styled(Modal)`
-    width: 350px;
-    height: 180px;
+    width: 80%;
+    height: 80%;
     position: relative;
     top: 50%;
     left: 50%;
@@ -18,6 +20,26 @@ const StyledModal = styled(Modal)`
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    overflow-y: scroll;
+
+    & .react-pdf__Document {
+        width: 600px;
+    }
+
+    & .react-pdf__Page {
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+    }
+
+    & .react-pdf__Page:last-child {
+        margin-bottom: 0;
+    }
+`;
+
+const Loader = `
+    display: block;
+    margin: 100px auto;
+    vertical-align: middle;
 `;
 
 const mapStateToProps = (state: Types.State) => ({
@@ -31,14 +53,30 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-class Viewer extends Component<Props, {}> {
+type State = {
+    numPages: number;
+};
+
+const sop = require('../../assets/qa001_rev03.pdf'); // TODO load from aws
+
+class Viewer extends Component<Props, State> {
+    state: Readonly<State> = {
+        numPages: 0
+    }
+
     render() {
         return (
             <StyledModal
                 isOpen={this.props.viewerOpen}
                 onRequestClose={this.props.closeViewer}
+                style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
             >
-                {this.props.filename}
+
+                <PDF file={sop} onLoadSuccess={({ numPages }: any) => this.setState({ numPages })} loading={<MoonLoader size={30} css={Loader} />}>
+                    {Array.from(new Array(this.state.numPages), (_, i) => (
+                        <Page key={`page_${i + 1}`} pageNumber={i + 1} width={600} loading='' />
+                    ))}
+                </PDF>
             </StyledModal>
         )
     }
