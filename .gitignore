@@ -2,6 +2,11 @@
 client/build
 client/node_modules
 
+# server
+server/env
+server/.env
+server/__pycache__
+
 # misc
 .DS_Store
 .env.local
@@ -13,3 +18,4 @@ yarn-debug.log*
 yarn-error.log*
 
 *.pdf
+info.txt
