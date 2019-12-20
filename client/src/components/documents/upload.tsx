@@ -5,7 +5,6 @@ import Dropzone from 'react-dropzone';
 
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import Types from 'SopviewTypes';
 import * as actions from '../../actions/documents';
 
 import { ReactComponent as UploadIcon } from '../../assets/documents/upload.svg';
@@ -64,21 +63,17 @@ const Drop = styled.div`
     }
 `;
 
-const mapStateToProps = (state: Types.State) => ({
-    uploadOpen: state.documents.uploadOpen,
-});
-
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     closeUpload: actions.closeUpload,
     startUpload: actions.startUpload
 }, dispatch);
 
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapDispatchToProps>;
 
 const Upload = (props: Props) => {
     return (
         <StyledModal
-            isOpen={props.uploadOpen}
+            isOpen={true}
             onRequestClose={props.closeUpload}
             style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
         >
@@ -99,4 +94,4 @@ const Upload = (props: Props) => {
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Upload);
+export default connect(null, mapDispatchToProps)(Upload);

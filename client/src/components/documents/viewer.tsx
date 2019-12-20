@@ -43,7 +43,6 @@ const Loader = `
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    viewerOpen: state.documents.viewerOpen,
     filename: state.documents.currentDocument
 });
 
@@ -62,12 +61,12 @@ const sop = require('../../assets/qa001_rev03.pdf'); // TODO load from aws
 class Viewer extends Component<Props, State> {
     state: Readonly<State> = {
         numPages: 0
-    }
+    };
 
     render() {
         return (
             <StyledModal
-                isOpen={this.props.viewerOpen}
+                isOpen={true}
                 onRequestClose={this.props.closeViewer}
                 style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
             >
@@ -78,7 +77,7 @@ class Viewer extends Component<Props, State> {
                     ))}
                 </PDF>
             </StyledModal>
-        )
+        );
     }
 }
 

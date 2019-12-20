@@ -67,7 +67,6 @@ const Cancel = styled.button`
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    renameOpen: state.documents.renameOpen,
     oldName: state.documents.currentDocument
 });
 
@@ -85,28 +84,28 @@ type State = {
 class Rename extends Component<Props, State> {
     state: Readonly<State> = {
         newName: ''
-    }
+    };
 
     onClose = () => {
         this.setState({ newName: '' });
         this.props.closeRename();
-    }
+    };
 
     onConfirm = () => {
         this.setState({ newName: '' });
-        this.props.confirmRename(this.props.oldName, this.state.newName)
-    }
+        this.props.confirmRename(this.props.oldName, this.state.newName);
+    };
 
     onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ newName: e.target.value });
-    }
+    };
 
     render() {
         let inputValue = this.state.newName === '' ? this.props.oldName : this.state.newName;
 
         return (
             <StyledModal
-                isOpen={this.props.renameOpen}
+                isOpen={true}
                 onRequestClose={this.onClose}
                 style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
             >

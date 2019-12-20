@@ -47,7 +47,6 @@ const Cancel = styled.button`
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    deleteOpen: state.documents.deleteOpen,
     filename: state.documents.currentDocument
 });
 
@@ -62,7 +61,7 @@ class Delete extends Component<Props, {}> {
     render() {
         return (
             <StyledModal
-                isOpen={this.props.deleteOpen}
+                isOpen={true}
                 onRequestClose={this.props.closeDelete}
                 style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
             >

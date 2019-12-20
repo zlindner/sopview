@@ -1,12 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { connect } from 'react-redux';
+import Types from 'SopviewTypes';
+
 import Sidebar from './sidebar';
 import Document from './document';
 import Viewer from './viewer';
 import Rename from './rename';
 import Delete from './delete';
 import Upload from './upload';
+import Uploader from './uploader';
 
 const Wrapper = styled.div`
     display: flex;
@@ -34,7 +38,17 @@ const Grid = styled.div`
     }
 `;
 
-const Documents = () => {
+const mapStateToProps = (state: Types.State) => ({
+    viewerOpen: state.documents.viewerOpen,
+    renameOpen: state.documents.renameOpen,
+    deleteOpen: state.documents.deleteOpen,
+    uploadOpen: state.documents.uploadOpen,
+    uploading: state.documents.uploading
+});
+
+type Props = ReturnType<typeof mapStateToProps>;
+
+const Documents = (props: Props) => {
     return (
         <Wrapper>
             <Sidebar />
@@ -46,12 +60,13 @@ const Documents = () => {
                 <Document filename={'file4.pdf'} />
             </Grid>
 
-            <Viewer />
-            <Rename />
-            <Delete />
-            <Upload />
+            {props.viewerOpen && <Viewer />}
+            {props.renameOpen && <Rename />}
+            {props.deleteOpen && <Delete />}
+            {props.uploadOpen && <Upload />}
+            {props.uploading && <Uploader />}
         </Wrapper>
     );
 };
 
-export default Documents;
+export default connect(mapStateToProps, null)(Documents);
