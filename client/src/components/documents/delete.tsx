@@ -48,7 +48,7 @@ const Cancel = styled.button`
 
 const mapStateToProps = (state: Types.State) => ({
     deleteOpen: state.documents.deleteOpen,
-    filename: state.documents.currentFile
+    filename: state.documents.currentDocument
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({

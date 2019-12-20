@@ -32,8 +32,5 @@ textract.start_document_text_detection(
 def add(a, b):
     return a + b
 
-result = add.delay(23, 42)
-print(result.get())
-
 if __name__ == '__main__': 
     app.run()

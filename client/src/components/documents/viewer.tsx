@@ -44,7 +44,7 @@ const Loader = `
 
 const mapStateToProps = (state: Types.State) => ({
     viewerOpen: state.documents.viewerOpen,
-    filename: state.documents.currentFile
+    filename: state.documents.currentDocument
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({

@@ -68,7 +68,7 @@ const Cancel = styled.button`
 
 const mapStateToProps = (state: Types.State) => ({
     renameOpen: state.documents.renameOpen,
-    oldName: state.documents.currentFile
+    oldName: state.documents.currentDocument
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
