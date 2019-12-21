@@ -43,7 +43,7 @@ const mapStateToProps = (state: Types.State) => ({
     renameOpen: state.documents.renameOpen,
     deleteOpen: state.documents.deleteOpen,
     uploadOpen: state.documents.uploadOpen,
-    uploading: state.documents.uploading
+    uploaderOpen: state.documents.uploaderOpen
 });
 
 type Props = ReturnType<typeof mapStateToProps>;
@@ -64,7 +64,7 @@ const Documents = (props: Props) => {
             {props.renameOpen && <Rename />}
             {props.deleteOpen && <Delete />}
             {props.uploadOpen && <Upload />}
-            <Uploader bottom={props.uploading ? 25 : -150} />
+            <Uploader bottom={props.uploaderOpen ? 25 : -150} />
         </Wrapper>
     );
 };

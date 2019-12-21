@@ -8,10 +8,6 @@ import * as actions from '../../actions/documents';
 
 import { ReactComponent as CancelIcon } from '../../assets/documents/cancel.svg';
 
-// https://dribbble.com/shots/6859580-File-Uploader
-
-// TODO show success / error message rather than just sliding back down
-
 const Wrapper = styled.div`
     width: 350px;
     height: 100px;
@@ -19,7 +15,7 @@ const Wrapper = styled.div`
     right: 25px;
     border-radius: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    transition: bottom 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
 
     & > span {
         display: block;
@@ -87,11 +83,14 @@ const Progress = styled.div`
 `;
 
 const mapStateToProps = (state: Types.State) => ({
+    uploadSuccess: state.documents.uploadSuccess,
+    uploadError: state.documents.uploadError,
     uploadPercent: state.documents.uploadPercent
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-    cancelUpload: actions.cancelUpload
+    cancelUpload: actions.cancelUpload,
+    closeUploader: actions.closeUploader
 }, dispatch);
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {
@@ -99,6 +98,20 @@ type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchT
 };
 
 const Uploader = (props: Props) => {
+    if (props.uploadSuccess || props.uploadError) {
+        const message = props.uploadSuccess ? 'Upload Successful' : 'Error Uploading Files';
+
+        return (
+            <Wrapper style={{ bottom: props.bottom, height: 60 }}>
+                <span>{message}</span>
+
+                <Cancel onClick={props.closeUploader}>
+                    <CancelIcon />
+                </Cancel>
+            </Wrapper>
+        );
+    }
+
     const progress = (310 * props.uploadPercent) + 'px';
 
     return (

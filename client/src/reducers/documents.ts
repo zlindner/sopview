@@ -8,7 +8,10 @@ export type DocumentsState = Readonly<{
     deleteOpen: boolean;
 
     uploadOpen: boolean;
+    uploaderOpen: boolean;
     uploading: boolean;
+    uploadSuccess: boolean;
+    uploadError: boolean;
     files: Array<File>;
     uploadPercent: number;
 }>;
@@ -22,7 +25,10 @@ const initialState: DocumentsState = {
     deleteOpen: false,
 
     uploadOpen: false,
+    uploaderOpen: false,
     uploading: false,
+    uploadSuccess: false,
+    uploadError: false,
     files: [],
     uploadPercent: 0
 };
@@ -58,21 +64,25 @@ const documentsReducer = createReducer<DocumentsState, DocumentsAction>(initialS
     CLOSE_UPLOAD: (state, _) => Object.assign({}, state, {
         uploadOpen: false,
     }),
+    CLOSE_UPLOADER: (state, _) => Object.assign({}, state, {
+        uploaderOpen: false
+    }),
     START_UPLOAD: (state, action) => Object.assign({}, state, {
         uploadOpen: false,
+        uploaderOpen: true,
         uploading: true,
-        files: action.payload
+        uploadSuccess: false,
+        uploadError: false,
+        files: action.payload,
+        uploadPercent: 0
     }),
     UPLOAD_SUCCESS: (state, _) => Object.assign({}, state, {
         uploading: false,
-        files: [],
-        uploadPercent: 0
+        uploadSuccess: true,
     }),
     UPLOAD_ERROR: (state, _) => Object.assign({}, state, {
         uploading: false,
-        files: [],
-        // error: true,
-        uploadPercent: 0
+        uploadError: true,
     }),
     UPDATE_UPLOAD_PROGRESS: (state, action) => Object.assign({}, state, {
         uploadPercent: action.payload

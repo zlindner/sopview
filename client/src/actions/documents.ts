@@ -6,7 +6,7 @@ import {
     OPEN_VIEWER, CLOSE_VIEWER,
     OPEN_RENAME, CLOSE_RENAME,
     OPEN_DELETE, CLOSE_DELETE,
-    OPEN_UPLOAD, CLOSE_UPLOAD, START_UPLOAD, PAUSE_UPLOAD, CANCEL_UPLOAD, UPLOAD_SUCCESS, UPLOAD_ERROR, UPDATE_UPLOAD_PROGRESS
+    OPEN_UPLOAD, CLOSE_UPLOAD, START_UPLOAD, PAUSE_UPLOAD, UPLOAD_SUCCESS, UPLOAD_ERROR, CLOSE_UPLOADER, UPDATE_UPLOAD_PROGRESS
 } from '../constants';
 
 export const openViewer = (filename: string) => action(OPEN_VIEWER, filename);
@@ -40,24 +40,23 @@ export const confirmDelete = (filename: string) => {
  * Upload
  */
 
-const source = axios.CancelToken.source();
+const CancelToken = axios.CancelToken;
+let cancel: Function;
 
 export const openUpload = () => action(OPEN_UPLOAD);
 export const closeUpload = () => action(CLOSE_UPLOAD);
 
 export const startUpload = (files: Array<File>) => action(START_UPLOAD, files);
 // TODO pauseUpload
-
 export const cancelUpload = () => {
-    return (dispatch: Dispatch) => {
-        console.log('cancelling');
-        source.cancel();
-        dispatch(uploadError());
+    return (_: Dispatch) => {
+        cancel();
     };
 };
 
 export const uploadSuccess = () => action(UPLOAD_SUCCESS);
 export const uploadError = () => action(UPLOAD_ERROR);
+export const closeUploader = () => action(CLOSE_UPLOADER);
 
 export const upload = (files: Array<File>) => {
     return (dispatch: Dispatch) => {
@@ -74,7 +73,7 @@ export const upload = (files: Array<File>) => {
                 let percent = parseFloat((event.loaded / event.total).toFixed(2));
                 dispatch(updateUploadProgress(percent));
             },
-            cancelToken: source.token
+            cancelToken: new CancelToken((c) => cancel = c)
         };
 
         setTimeout(() => axios.post('https://sopview.free.beeceptor.com/documents/upload', data, config)
@@ -83,8 +82,13 @@ export const upload = (files: Array<File>) => {
                 dispatch(uploadSuccess());
             })
             .catch(err => {
-                console.log(err);
-                dispatch(uploadError());
+                if (axios.isCancel(err)) {
+                    console.log('cancel');
+                    dispatch(closeUploader());
+                } else {
+                    console.log(err);
+                    dispatch(uploadError());
+                }
             }), 500);
     };
 };
