@@ -1,10 +1,12 @@
 import { action } from 'typesafe-actions';
 import { Dispatch } from 'redux';
+import axios from 'axios';
+
 import {
     OPEN_VIEWER, CLOSE_VIEWER,
     OPEN_RENAME, CLOSE_RENAME,
     OPEN_DELETE, CLOSE_DELETE,
-    OPEN_UPLOAD, CLOSE_UPLOAD, START_UPLOAD
+    OPEN_UPLOAD, CLOSE_UPLOAD, START_UPLOAD, PAUSE_UPLOAD, CANCEL_UPLOAD, UPLOAD_SUCCESS, UPLOAD_ERROR, UPDATE_UPLOAD_PROGRESS
 } from '../constants';
 
 export const openViewer = (filename: string) => action(OPEN_VIEWER, filename);
@@ -34,13 +36,57 @@ export const confirmDelete = (filename: string) => {
     };
 };
 
+/**
+ * Upload
+ */
+
+const source = axios.CancelToken.source();
+
 export const openUpload = () => action(OPEN_UPLOAD);
 export const closeUpload = () => action(CLOSE_UPLOAD);
 
 export const startUpload = (files: Array<File>) => action(START_UPLOAD, files);
+// TODO pauseUpload
+
+export const cancelUpload = () => {
+    return (dispatch: Dispatch) => {
+        console.log('cancelling');
+        source.cancel();
+        dispatch(uploadError());
+    };
+};
+
+export const uploadSuccess = () => action(UPLOAD_SUCCESS);
+export const uploadError = () => action(UPLOAD_ERROR);
 
 export const upload = (files: Array<File>) => {
     return (dispatch: Dispatch) => {
         dispatch(startUpload(files));
+
+        let data = new FormData();
+
+        for (let file of files) {
+            data.append('files[]', file);
+        }
+
+        const config = {
+            onUploadProgress: (event: ProgressEvent) => {
+                let percent = parseFloat((event.loaded / event.total).toFixed(2));
+                dispatch(updateUploadProgress(percent));
+            },
+            cancelToken: source.token
+        };
+
+        setTimeout(() => axios.post('https://sopview.free.beeceptor.com/documents/upload', data, config)
+            .then(res => {
+                console.log(res);
+                dispatch(uploadSuccess());
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(uploadError());
+            }), 500);
     };
 };
+
+export const updateUploadProgress = (percent: number) => action(UPDATE_UPLOAD_PROGRESS, percent);

@@ -65,7 +65,7 @@ const Drop = styled.div`
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     closeUpload: actions.closeUpload,
-    startUpload: actions.startUpload
+    upload: actions.upload
 }, dispatch);
 
 type Props = ReturnType<typeof mapDispatchToProps>;
@@ -78,7 +78,7 @@ const Upload = (props: Props) => {
             style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
         >
             <Drop>
-                <Dropzone onDrop={props.startUpload}>
+                <Dropzone onDrop={props.upload}>
                     {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps()}>
                             <input {...getInputProps()} />

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 
@@ -57,21 +57,19 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-class Delete extends Component<Props, {}> {
-    render() {
-        return (
-            <StyledModal
-                isOpen={true}
-                onRequestClose={this.props.closeDelete}
-                style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
-            >
-                <Text>Delete {this.props.filename}?</Text>
+const Delete = (props: Props) => {
+    return (
+        <StyledModal
+            isOpen={true}
+            onRequestClose={props.closeDelete}
+            style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
+        >
+            <Text>Delete {props.filename}?</Text>
 
-                <Cancel onClick={this.props.closeDelete}>CANCEL</Cancel>
-                <Confirm onClick={() => this.props.confirmDelete(this.props.filename)}>CONFIRM</Confirm>
-            </StyledModal>
-        );
-    }
-}
+            <Cancel onClick={props.closeDelete}>CANCEL</Cancel>
+            <Confirm onClick={() => props.confirmDelete(props.filename)}>CONFIRM</Confirm>
+        </StyledModal>
+    );
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Delete);

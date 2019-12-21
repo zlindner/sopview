@@ -64,7 +64,7 @@ const Documents = (props: Props) => {
             {props.renameOpen && <Rename />}
             {props.deleteOpen && <Delete />}
             {props.uploadOpen && <Upload />}
-            {props.uploading && <Uploader />}
+            <Uploader bottom={props.uploading ? 25 : -150} />
         </Wrapper>
     );
 };
