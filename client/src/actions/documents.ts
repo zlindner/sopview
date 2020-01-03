@@ -3,10 +3,20 @@ import { Dispatch } from 'redux';
 import axios from 'axios';
 
 import {
-    OPEN_VIEWER, CLOSE_VIEWER,
-    OPEN_RENAME, CLOSE_RENAME,
-    OPEN_DELETE, CLOSE_DELETE,
-    OPEN_UPLOAD, CLOSE_UPLOAD, START_UPLOAD, PAUSE_UPLOAD, UPLOAD_SUCCESS, UPLOAD_ERROR, CLOSE_UPLOADER, UPDATE_UPLOAD_PROGRESS
+    OPEN_VIEWER,
+    CLOSE_VIEWER,
+    OPEN_RENAME,
+    CLOSE_RENAME,
+    OPEN_DELETE,
+    CLOSE_DELETE,
+    OPEN_UPLOAD,
+    CLOSE_UPLOAD,
+    START_UPLOAD,
+    PAUSE_UPLOAD,
+    UPLOAD_SUCCESS,
+    UPLOAD_ERROR,
+    CLOSE_UPLOADER,
+    UPDATE_UPLOAD_PROGRESS
 } from '../constants';
 
 export const openViewer = (filename: string) => action(OPEN_VIEWER, filename);
@@ -62,33 +72,53 @@ export const upload = (files: Array<File>) => {
     return (dispatch: Dispatch) => {
         dispatch(startUpload(files));
 
-        let data = new FormData();
+        let filenames = new Array();
 
         for (let file of files) {
-            data.append('files[]', file);
+            filenames.push(file.name);
         }
 
-        const config = {
-            onUploadProgress: (event: ProgressEvent) => {
-                let percent = parseFloat((event.loaded / event.total).toFixed(2));
-                dispatch(updateUploadProgress(percent));
-            },
-            cancelToken: new CancelToken((c) => cancel = c)
-        };
-
-        setTimeout(() => axios.post('/documents/upload', data, config)
+        setTimeout(() => axios.post('/documents/generate_signatures', filenames)
             .then(res => {
-                console.log(res);
-                dispatch(uploadSuccess());
+                const signatures = res.data;
+
+                for (let i = 0; i < signatures.length; i++) {
+                    let data = new FormData();
+
+                    Object.keys(signatures[i].fields).forEach(key => {
+                        data.append(key, signatures[i].fields[key]);
+                    });
+    
+                    data.append('file', files[i]);
+
+                    const config = {
+                        onUploadProgress: (event: ProgressEvent) => {
+                            let percent = parseFloat((event.loaded / event.total).toFixed(2));
+                            dispatch(updateUploadProgress((i + 1) / signatures.length * percent));
+                        },
+                        cancelToken: new CancelToken(c => (cancel = c)),
+                        headers: { 'Content-Type': 'application/pdf' }
+                    };
+    
+                    setTimeout(() => axios.post(signatures[i].url, data, config)
+                        .then(res => {
+                            console.log(res);
+                            dispatch(updateUploadProgress((i + 1) / signatures.length));
+                            //dispatch(uploadSuccess());
+                        })
+                        .catch(err => {
+                            if (axios.isCancel(err)) {
+                                console.log('cancel');
+                                dispatch(closeUploader());
+                            } else {
+                                console.log(err.response);
+                                dispatch(uploadError());
+                            }
+                        }), 500);
+                }
             })
             .catch(err => {
-                if (axios.isCancel(err)) {
-                    console.log('cancel');
-                    dispatch(closeUploader());
-                } else {
-                    console.log(err);
-                    dispatch(uploadError());
-                }
+                console.log(err.response);
             }), 500);
     };
 };

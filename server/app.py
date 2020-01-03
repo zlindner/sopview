@@ -1,35 +1,33 @@
-from flask import Flask
-from extensions import db, migrate, celery
-from sopview import auth, documents
+from flask import Flask, render_template
+from extensions import celery, db
+import auth, documents
 
 def create_app(testing=False, cli=False):
-    app = Flask('sopview', static_folder='../client/build/static', template_folder='../client/build')
-    app.config.from_object('sopview.config')
+    app = Flask(__name__, static_folder='../client/build/static', template_folder='../client/build')
+    app.config.from_object('config')
 
-    if testing is True:
-        app.config['TESTING'] = True
-
-    configure_extensions(app, cli)
+    configure_extensions(app)
     register_blueprints(app)
+
+    @app.route('/<path:path>')
+    def serve(path):
+        return render_template('index.html')
 
     return app
 
-def configure_extensions(app, cli):
+def configure_extensions(app):
     db.init_app(app)
     # jwt
-
-    if cli is True:
-        migrate.init_app(app, db)
 
 def register_blueprints(app):
     app.register_blueprint(auth.bp)
     app.register_blueprint(documents.bp)
 
-def init_celery(app=None):
-    app = app or create_app()
+def init_celery():
+    app = create_app()
 
-    celery.config.broker_url = app.config['CELERY_BROKER_URL']
-    celery.conf.result_backend = app.config['CELERY_RESULT_BACKEND']
+    celery.conf.broker_url = app.config['CELERY_BROKER_URL']
+    #celery.conf.result_backend = app.config['CELERY_RESULT_BACKEND']
     celery.conf.update(app.config)
 
     # wrap task execution in an app context    

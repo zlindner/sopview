@@ -3,10 +3,9 @@ client/build
 client/node_modules
 
 # server
+server/.flaskenv
 server/env
-server/.env
-server/__pycache__
-server/dump.rdb
+__pycache__
 
 # misc
 .DS_Store

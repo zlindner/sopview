@@ -4,7 +4,6 @@ from botocore.exceptions import ClientError
 
 bucket = os.getenv('AWS_BUCKET')
 
-@celery.task
 def upload_file(file, filename):
     s3 = boto3.client('s3')
 
