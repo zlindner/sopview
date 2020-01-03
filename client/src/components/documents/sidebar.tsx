@@ -14,8 +14,7 @@ const Wrapper = styled.div`
     left: 0;
     padding: 20px;
     box-sizing: border-box;
-
-    background-color: red;
+    background-color: rgba(0, 0, 0, 0.08);
 `;
 
 const Name = styled(Link)`

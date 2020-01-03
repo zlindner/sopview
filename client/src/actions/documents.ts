@@ -76,7 +76,7 @@ export const upload = (files: Array<File>) => {
             cancelToken: new CancelToken((c) => cancel = c)
         };
 
-        setTimeout(() => axios.post('https://sopview.free.beeceptor.com/documents/upload', data, config)
+        setTimeout(() => axios.post('/documents/upload', data, config)
             .then(res => {
                 console.log(res);
                 dispatch(uploadSuccess());
