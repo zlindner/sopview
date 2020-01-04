@@ -17,6 +17,12 @@ def create_app(testing=False, cli=False):
 
 def configure_extensions(app):
     db.init_app(app)
+
+    from models import user, document
+
+    with app.app_context():
+        db.create_all()
+    
     # jwt
 
 def register_blueprints(app):

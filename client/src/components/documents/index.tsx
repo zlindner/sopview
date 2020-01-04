@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import { connect } from 'react-redux';
@@ -48,25 +48,31 @@ const mapStateToProps = (state: Types.State) => ({
 
 type Props = ReturnType<typeof mapStateToProps>;
 
-const Documents = (props: Props) => {
-    return (
-        <Wrapper>
-            <Sidebar />
+class Documents extends Component<Props, {}> {
+    componentDidMount() {
+        
+    }
 
-            <Grid>
-                <Document filename={'file1.pdf'} />
-                <Document filename={'file2.pdf'} />
-                <Document filename={'file3.pdf'} />
-                <Document filename={'file4.pdf'} />
-            </Grid>
-
-            {props.viewerOpen && <Viewer />}
-            {props.renameOpen && <Rename />}
-            {props.deleteOpen && <Delete />}
-            {props.uploadOpen && <Upload />}
-            <Uploader bottom={props.uploaderOpen ? 25 : -150} />
-        </Wrapper>
-    );
+    render() {
+        return (
+            <Wrapper>
+                <Sidebar />
+    
+                <Grid>
+                    <Document filename={'file1.pdf'} />
+                    <Document filename={'file2.pdf'} />
+                    <Document filename={'file3.pdf'} />
+                    <Document filename={'file4.pdf'} />
+                </Grid>
+    
+                {this.props.viewerOpen && <Viewer />}
+                {this.props.renameOpen && <Rename />}
+                {this.props.deleteOpen && <Delete />}
+                {this.props.uploadOpen && <Upload />}
+                <Uploader bottom={this.props.uploaderOpen ? 25 : -150} />
+            </Wrapper>
+        );
+    }
 };
 
 export default connect(mapStateToProps, null)(Documents);

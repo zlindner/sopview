@@ -73,11 +73,15 @@ export const upload = (files: Array<File>) => {
         dispatch(startUpload(files));
 
         let filenames = new Array();
+        let uploadSize = 0; // total bytes being uploaded
+        let uploaded = 0; // current bytes uploaded
 
         for (let file of files) {
             filenames.push(file.name);
+            uploadSize += file.size;
         }
 
+        // delay 500ms to allow uploader to copmlete transition
         setTimeout(() => axios.post('/documents/generate_signatures', filenames)
             .then(res => {
                 const signatures = res.data;
@@ -93,28 +97,32 @@ export const upload = (files: Array<File>) => {
 
                     const config = {
                         onUploadProgress: (event: ProgressEvent) => {
-                            let percent = parseFloat((event.loaded / event.total).toFixed(2));
-                            dispatch(updateUploadProgress((i + 1) / signatures.length * percent));
+                            let percent = parseFloat(((event.loaded + uploaded) / uploadSize).toFixed(2));
+                            dispatch(updateUploadProgress(percent));
                         },
                         cancelToken: new CancelToken(c => (cancel = c)),
                         headers: { 'Content-Type': 'application/pdf' }
                     };
     
-                    setTimeout(() => axios.post(signatures[i].url, data, config)
+                    axios.post(signatures[i].url, data, config)
                         .then(res => {
-                            console.log(res);
-                            dispatch(updateUploadProgress((i + 1) / signatures.length));
-                            //dispatch(uploadSuccess());
+                            if (i === signatures.length - 1) {
+                                dispatch(uploadSuccess());
+                                
+                                // TODO add files and info to db
+                                // TODO textract files
+                            } else {
+                                uploaded += files[i].size;
+                            }
                         })
                         .catch(err => {
                             if (axios.isCancel(err)) {
-                                console.log('cancel');
                                 dispatch(closeUploader());
                             } else {
                                 console.log(err.response);
                                 dispatch(uploadError());
                             }
-                        }), 500);
+                        });
                 }
             })
             .catch(err => {

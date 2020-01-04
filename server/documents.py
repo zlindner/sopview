@@ -23,7 +23,7 @@ def upload():
             if filename[-4:] != '.pdf':
                 return 'Only pdfs are supported', 400
 
-            signatures.append(s3.generate_presigned_post(bucket, email + '/' + filename, ))
+            signatures.append(s3.generate_presigned_post(bucket, email + '/' + filename))
     except ClientError as err:
         return err, 400
 
