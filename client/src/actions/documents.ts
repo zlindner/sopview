@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import axios from 'axios';
 
 import {
+    SET_DOCUMENTS,
     OPEN_VIEWER,
     CLOSE_VIEWER,
     OPEN_RENAME,
@@ -18,6 +19,23 @@ import {
     CLOSE_UPLOADER,
     UPDATE_UPLOAD_PROGRESS
 } from '../constants';
+
+export const loadDocuments = () => {
+    return (dispatch: Dispatch) => {
+        axios.post('/documents/load_documents', { 'email': 'zach.lindner@hotmail.com' })
+            .then(res => {
+                console.log(res);
+                
+                if (res.data.length > 0) {
+                    dispatch(setDocuments(res.data));
+                }
+            })
+            .catch(err => {
+                console.log(err.response);
+            });
+    }
+};
+export const setDocuments = (documents: Array<string>) => action(SET_DOCUMENTS, documents);
 
 export const openViewer = (filename: string) => action(OPEN_VIEWER, filename);
 export const closeViewer = () => action(CLOSE_VIEWER);
@@ -105,11 +123,14 @@ export const upload = (files: Array<File>) => {
                     };
     
                     axios.post(signatures[i].url, data, config)
-                        .then(res => {
+                        .then(() => {
+                            axios.post('/documents/add_document', { email: 'zach.lindner@hotmail.com', filename: files[i].name})
+                                    .then(res => console.log(res))
+                                    .catch(err => console.log(err.response));
+
                             if (i === signatures.length - 1) {
                                 dispatch(uploadSuccess());
                                 
-                                // TODO add files and info to db
                                 // TODO textract files
                             } else {
                                 uploaded += files[i].size;

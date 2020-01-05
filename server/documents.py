@@ -3,11 +3,30 @@ import boto3
 from flask import Blueprint, request, jsonify
 from botocore.client import Config
 from botocore.exceptions import ClientError
+from extensions import db
+from models.document import Document
 
 bp = Blueprint('documents', __name__, url_prefix='/documents')
 
+@bp.route('/load_documents', methods=['POST'])
+def load_documents():
+    email = request.get_json()['email']
+
+    if not email:
+        return 'Unauthorized', 403
+    
+    documents = []
+    rows = Document.query.filter_by(email=email)
+
+    for row in rows.all():
+        documents.append(row.filename)
+
+    return jsonify(documents), 200
+
 @bp.route('/generate_signatures', methods=['POST'])
-def upload():
+def generate_signatures():
+    # TODO send email
+
     filenames = request.get_json()
 
     if not filenames:
@@ -21,10 +40,34 @@ def upload():
     try:
         for filename in filenames:
             if filename[-4:] != '.pdf':
-                return 'Only pdfs are supported', 400
+                continue
+
+            # TODO check if exists here?
 
             signatures.append(s3.generate_presigned_post(bucket, email + '/' + filename))
     except ClientError as err:
         return err, 400
 
     return jsonify(signatures), 200
+
+@bp.route('/add_document', methods=['POST'])
+def add_document():
+    email = request.get_json()['email']
+    filename = request.get_json()['filename']
+
+    if not email:
+        return 'Unauthorized', 403
+
+    if not filename:
+        return 'Error adding document', 400
+
+    exists = Document.query.filter_by(filename=filename, email=email).first() is not None
+
+    if exists:
+        return 'Document already exists', 400
+
+    document = Document(filename, email)
+    db.session.add(document)
+    db.session.commit()
+
+    return '', 200

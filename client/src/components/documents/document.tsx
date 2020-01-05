@@ -60,9 +60,12 @@ type Props = ReturnType<typeof mapDispatchToProps> & {
 const sop = require('../../assets/qa001_rev03.pdf'); // TODO load from aws
 
 const Document = (props: Props) => {
+    const email = 'zach.lindner@hotmail.com';
+    const url = `https://sopview.s3.us-east-2.amazonaws.com/${email}/${props.filename}`
+
     return (
         <Wrapper onClick={() => props.openViewer(props.filename)}>
-            <PDF file={sop} renderMode='svg' loading={<MoonLoader size={30} css={Loader} />}>
+            <PDF file={url} renderMode='svg' onLoadError={console.error} loading={<MoonLoader size={30} css={Loader} />}>
                 <Filename>{props.filename}</Filename>
                 <Options filename={props.filename} />
 

@@ -2,6 +2,7 @@ import { ActionType, createReducer } from 'typesafe-actions';
 import * as actions from '../actions/documents';
 
 export type DocumentsState = Readonly<{
+    documents: Array<string>;
     currentDocument: string;
     viewerOpen: boolean;
     renameOpen: boolean;
@@ -19,6 +20,7 @@ export type DocumentsState = Readonly<{
 export type DocumentsAction = ActionType<typeof actions>;
 
 const initialState: DocumentsState = {
+    documents: [],
     currentDocument: '',
     viewerOpen: false,
     renameOpen: false,
@@ -34,6 +36,9 @@ const initialState: DocumentsState = {
 };
 
 const documentsReducer = createReducer<DocumentsState, DocumentsAction>(initialState, {
+    SET_DOCUMENTS: (state, action) => Object.assign({}, state, {
+        documents: action.payload
+    }),
     OPEN_VIEWER: (state, action) => Object.assign({}, state, {
         viewerOpen: true,
         currentDocument: action.payload

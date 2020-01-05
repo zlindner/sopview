@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 from extensions import celery, db
 import auth, documents
 
@@ -8,10 +8,7 @@ def create_app(testing=False, cli=False):
 
     configure_extensions(app)
     register_blueprints(app)
-
-    @app.route('/<path:path>')
-    def serve(path):
-        return render_template('index.html')
+    register_routes(app)
 
     return app
 
@@ -28,6 +25,15 @@ def configure_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(auth.bp)
     app.register_blueprint(documents.bp)
+
+def register_routes(app):
+    @app.route('/<path:path>')
+    def serve(path):
+        return render_template('index.html')
+
+    @app.route('/pdf.worker.js')
+    def serve_pdfjs_worker():
+        return send_from_directory(app.static_folder, 'pdf.worker.js')
 
 def init_celery():
     app = create_app()

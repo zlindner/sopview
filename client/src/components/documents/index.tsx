@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Types from 'SopviewTypes';
+import * as actions from '../../actions/documents';
 
 import Sidebar from './sidebar';
 import Document from './document';
@@ -39,6 +41,7 @@ const Grid = styled.div`
 `;
 
 const mapStateToProps = (state: Types.State) => ({
+    documents: state.documents.documents,
     viewerOpen: state.documents.viewerOpen,
     renameOpen: state.documents.renameOpen,
     deleteOpen: state.documents.deleteOpen,
@@ -46,23 +49,26 @@ const mapStateToProps = (state: Types.State) => ({
     uploaderOpen: state.documents.uploaderOpen
 });
 
-type Props = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
+    loadDocuments: actions.loadDocuments
+}, dispatch);
+
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class Documents extends Component<Props, {}> {
     componentDidMount() {
-        
+        this.props.loadDocuments();
     }
 
     render() {
         return (
             <Wrapper>
                 <Sidebar />
-    
+
                 <Grid>
-                    <Document filename={'file1.pdf'} />
-                    <Document filename={'file2.pdf'} />
-                    <Document filename={'file3.pdf'} />
-                    <Document filename={'file4.pdf'} />
+                    {this.props.documents.map(filename => (
+                        <Document filename={filename} />
+                    ))}
                 </Grid>
     
                 {this.props.viewerOpen && <Viewer />}
@@ -75,4 +81,4 @@ class Documents extends Component<Props, {}> {
     }
 };
 
-export default connect(mapStateToProps, null)(Documents);
+export default connect(mapStateToProps, mapDispatchToProps)(Documents);
