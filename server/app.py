@@ -1,6 +1,6 @@
 from flask import Flask, render_template, send_from_directory
 from extensions import celery, db
-import auth, documents
+from blueprints import auth, documents
 
 def create_app(testing=False, cli=False):
     app = Flask(__name__, static_folder='../client/build/static', template_folder='../client/build')
@@ -50,14 +50,4 @@ def init_celery():
     
     celery.Task = ContextTask
     return celery
-
-# start redis: $redis-server
-# start celery: $celery -A sopview.celery worker (starts app?)
-
-'''
-@app.route('/<path:path>')
-def serve(path):
-    return render_template('index.html')
-
-app.run(debug=True)
-'''
+    

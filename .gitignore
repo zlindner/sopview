@@ -6,6 +6,7 @@ client/node_modules
 server/.flaskenv
 server/env
 __pycache__
+.pytest_cache
 
 # misc
 .DS_Store
