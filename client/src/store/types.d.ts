@@ -11,3 +11,10 @@ declare module 'typesafe-actions' {
         RootAction: ActionType<typeof import('./action').default>;
     }
 }
+
+declare global {
+    type SOP = {
+        filename: string;
+        url: string;
+    }
+}

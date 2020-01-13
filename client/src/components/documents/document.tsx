@@ -54,20 +54,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 }, dispatch);
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
-    filename: string;
+    sop: SOP
 }
 
-const sop = require('../../assets/qa001_rev03.pdf'); // TODO load from aws
-
 const Document = (props: Props) => {
-    const email = 'zach.lindner@hotmail.com';
-    const url = `https://sopview.s3.us-east-2.amazonaws.com/${email}/${props.filename}`
-
     return (
-        <Wrapper onClick={() => props.openViewer(props.filename)}>
-            <PDF file={url} renderMode='svg' onLoadError={console.error} loading={<MoonLoader size={30} css={Loader} />}>
-                <Filename>{props.filename}</Filename>
-                <Options filename={props.filename} />
+        <Wrapper onClick={() => props.openViewer(props.sop)}>
+            <PDF file={props.sop.url} renderMode='svg' onLoadError={console.error} loading={<MoonLoader size={30} css={Loader} />}>
+                <Filename>{props.sop.filename}</Filename>
+                <Options sop={props.sop} />
 
                 <Page pageIndex={0} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
             </PDF>

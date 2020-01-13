@@ -47,7 +47,7 @@ const Cancel = styled.button`
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    filename: state.documents.currentDocument
+    sop: state.documents.currentSOP
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
@@ -64,10 +64,10 @@ const Delete = (props: Props) => {
             onRequestClose={props.closeDelete}
             style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
         >
-            <Text>Delete {props.filename}?</Text>
+            <Text>Delete {props.sop.filename}?</Text>
 
             <Cancel onClick={props.closeDelete}>CANCEL</Cancel>
-            <Confirm onClick={() => props.confirmDelete(props.filename)}>CONFIRM</Confirm>
+            <Confirm onClick={() => props.confirmDelete(props.sop)}>CONFIRM</Confirm>
         </StyledModal>
     );
 };

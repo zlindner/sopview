@@ -14,13 +14,17 @@ def load_documents():
 
     if not email:
         return 'Unauthorized', 403
-    
+
+    s3 = boto3.client('s3', region_name='us-east-2', config=Config(signature_version='s3v4'))
+    bucket = os.getenv('AWS_BUCKET')
+
     documents = []
     rows = Document.query.filter_by(email=email)
 
     for row in rows.all():
-        documents.append(row.filename)
-
+        url = s3.generate_presigned_url('get_object', {'Bucket': bucket, 'Key': email + '/' + row.filename})
+        documents.append({'filename': row.filename, 'url': url})
+        
     return jsonify(documents), 200
 
 @bp.route('/generate_signatures', methods=['POST'])

@@ -20,6 +20,7 @@ import {
     UPDATE_UPLOAD_PROGRESS
 } from '../constants';
 
+// loadSOPs
 export const loadDocuments = () => {
     return (dispatch: Dispatch) => {
         axios.post('/documents/load_documents', { 'email': 'zach.lindner@hotmail.com' })
@@ -35,30 +36,66 @@ export const loadDocuments = () => {
             });
     }
 };
-export const setDocuments = (documents: Array<string>) => action(SET_DOCUMENTS, documents);
 
-export const openViewer = (filename: string) => action(OPEN_VIEWER, filename);
+export const setDocuments = (sops: Array<SOP>) => action(SET_DOCUMENTS, sops);
+
+/**
+ * Action for opening the viewer modal for an SOP
+ * @param sop the SOP being viewed
+ */
+export const openViewer = (sop: SOP) => action(OPEN_VIEWER, sop);
+
+/**
+ * Action for closing the viewer modal
+ */
 export const closeViewer = () => action(CLOSE_VIEWER);
 
-export const openRename = (filename: string) => action(OPEN_RENAME, filename);
+/**
+ * Action for opening the rename modal for an SOP
+ * @param sop the SOP being renamed
+ */
+export const openRename = (sop: SOP) => action(OPEN_RENAME, sop);
+
+/**
+ * Action for closing the rename modal
+ */
 export const closeRename = () => action(CLOSE_RENAME);
-export const confirmRename = (oldFilename: string, newFilename: string) => {
+
+/**
+ * Action for confirming the rename of an SOP
+ * @param sop the SOP being renamed
+ * @param newFilename the SOP's new filename
+ */
+export const confirmRename = (sop: SOP, newFilename: string) => {
     return (dispatch: Dispatch) => {
         // TODO rename, need email here to find file in db
-        if (newFilename !== '' && oldFilename !== newFilename) {
-            console.log('changing ' + oldFilename + ' to ' + newFilename);
+        if (newFilename !== '' && sop.filename !== newFilename) {
+            console.log('changing ' + sop.filename + ' to ' + newFilename);
         }
 
         dispatch(closeRename());
     };
 };
 
-export const openDelete = (filename: string) => action(OPEN_DELETE, filename);
+/**
+ * Action for opening the delete modal for an SOP
+ * @param sop the SOP being deleted
+ */
+export const openDelete = (sop: SOP) => action(OPEN_DELETE, sop);
+
+/**
+ * Action for closing the delete modal
+ */
 export const closeDelete = () => action(CLOSE_DELETE);
-export const confirmDelete = (filename: string) => {
+
+/**
+ * Action for confirming the deletion of an SOP
+ * @param sop the sop being deleted
+ */
+export const confirmDelete = (sop: SOP) => {
     return (dispatch: Dispatch) => {
         // TODO delete, need email here to find file in db
-        console.log('deleting ' + filename);
+        console.log('deleting ' + sop.filename);
 
         dispatch(closeDelete());
     };

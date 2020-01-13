@@ -2,9 +2,10 @@ from flask import Flask, render_template, send_from_directory
 from extensions import celery, db
 from blueprints import auth, documents
 
-def create_app(testing=False, cli=False):
+def create_app(testing=False):
     app = Flask(__name__, static_folder='../client/build/static', template_folder='../client/build')
     app.config.from_object('config')
+    app.config['TESTING'] = testing
 
     configure_extensions(app)
     register_blueprints(app)

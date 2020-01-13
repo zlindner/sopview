@@ -2,8 +2,8 @@ import { ActionType, createReducer } from 'typesafe-actions';
 import * as actions from '../actions/documents';
 
 export type DocumentsState = Readonly<{
-    documents: Array<string>;
-    currentDocument: string;
+    sops: Array<SOP>;
+    currentSOP: SOP;
     viewerOpen: boolean;
     renameOpen: boolean;
     deleteOpen: boolean;
@@ -20,8 +20,8 @@ export type DocumentsState = Readonly<{
 export type DocumentsAction = ActionType<typeof actions>;
 
 const initialState: DocumentsState = {
-    documents: [],
-    currentDocument: '',
+    sops: [],
+    currentSOP: { filename: '', url: '' },
     viewerOpen: false,
     renameOpen: false,
     deleteOpen: false,
@@ -37,31 +37,31 @@ const initialState: DocumentsState = {
 
 const documentsReducer = createReducer<DocumentsState, DocumentsAction>(initialState, {
     SET_DOCUMENTS: (state, action) => Object.assign({}, state, {
-        documents: action.payload
+        sops: action.payload
     }),
     OPEN_VIEWER: (state, action) => Object.assign({}, state, {
         viewerOpen: true,
-        currentDocument: action.payload
+        currentSOP: action.payload
     }),
     CLOSE_VIEWER: (state, _) => Object.assign({}, state, {
         viewerOpen: false,
-        currentDocument: ''
+        currentSOP: { filename: '', url: '' }
     }),
     OPEN_RENAME: (state, action) => Object.assign({}, state, {
         renameOpen: true,
-        currentDocument: action.payload
+        currentSOP: action.payload
     }),
     CLOSE_RENAME: (state, _) => Object.assign({}, state, {
         renameOpen: false,
-        currentDocument: ''
+        currentSOP: { filename: '', url: '' }
     }),
     OPEN_DELETE: (state, action) => Object.assign({}, state, {
         deleteOpen: true,
-        currentDocument: action.payload
+        currentSOP: action.payload
     }),
     CLOSE_DELETE: (state, _) => Object.assign({}, state, {
         deleteOpen: false,
-        currentDocument: ''
+        currentSOP: { filename: '', url: '' }
     }),
     OPEN_UPLOAD: (state, _) => Object.assign({}, state, {
         uploadOpen: true,

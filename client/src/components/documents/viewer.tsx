@@ -43,7 +43,7 @@ const Loader = `
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    filename: state.documents.currentDocument
+    sop: state.documents.currentSOP
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
@@ -55,8 +55,6 @@ type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchT
 type State = {
     numPages: number;
 };
-
-const sop = require('../../assets/qa001_rev03.pdf'); // TODO load from aws
 
 class Viewer extends Component<Props, State> {
     state: Readonly<State> = {
@@ -71,7 +69,7 @@ class Viewer extends Component<Props, State> {
                 style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
             >
 
-                <PDF file={sop} onLoadSuccess={({ numPages }: any) => this.setState({ numPages })} loading={<MoonLoader size={30} css={Loader} />}>
+                <PDF file={this.props.sop.url} onLoadSuccess={({ numPages }: any) => this.setState({ numPages })} loading={<MoonLoader size={30} css={Loader} />}>
                     {Array.from(new Array(this.state.numPages), (_, i) => (
                         <Page key={`page_${i + 1}`} pageNumber={i + 1} width={600} loading='' />
                     ))}
