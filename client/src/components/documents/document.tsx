@@ -54,15 +54,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 }, dispatch);
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
-    sop: SOP
+    document: Metadata
 }
 
 const Document = (props: Props) => {
     return (
-        <Wrapper onClick={() => props.openViewer(props.sop)}>
-            <PDF file={props.sop.url} renderMode='svg' onLoadError={console.error} loading={<MoonLoader size={30} css={Loader} />}>
-                <Filename>{props.sop.filename}</Filename>
-                <Options sop={props.sop} />
+        <Wrapper onClick={() => props.openViewer(props.document)}>
+            <PDF file={props.document.url} renderMode='svg' onLoadError={console.error} loading={<MoonLoader size={30} css={Loader} />}>
+                <Filename>{props.document.filename}</Filename>
+                <Options document={props.document} />
 
                 <Page pageIndex={0} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
             </PDF>

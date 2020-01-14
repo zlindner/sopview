@@ -67,7 +67,7 @@ const Cancel = styled.button`
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    sop: state.documents.currentSOP
+    document: state.documents.currentDocument
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
@@ -93,7 +93,7 @@ class Rename extends Component<Props, State> {
 
     onConfirm = () => {
         this.setState({ newName: '' });
-        this.props.confirmRename(this.props.sop, this.state.newName);
+        this.props.confirmRename(this.props.document, this.state.newName);
     };
 
     onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +101,7 @@ class Rename extends Component<Props, State> {
     };
 
     render() {
-        let inputValue = this.state.newName === '' ? this.props.sop.filename : this.state.newName;
+        let inputValue = this.state.newName === '' ? this.props.document.filename : this.state.newName;
 
         return (
             <StyledModal

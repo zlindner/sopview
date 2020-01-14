@@ -41,7 +41,7 @@ const Grid = styled.div`
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    sops: state.documents.sops,
+    documents: state.documents.documents,
     viewerOpen: state.documents.viewerOpen,
     renameOpen: state.documents.renameOpen,
     deleteOpen: state.documents.deleteOpen,
@@ -66,8 +66,8 @@ class Documents extends Component<Props, {}> {
                 <Sidebar />
 
                 <Grid>
-                    {this.props.sops.map(sop => (
-                        <Document sop={sop} />
+                    {this.props.documents.map(d => (
+                        <Document document={d} />
                     ))}
                 </Grid>
     

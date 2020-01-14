@@ -13,7 +13,9 @@ declare module 'typesafe-actions' {
 }
 
 declare global {
-    type SOP = {
+
+    // metadata representing a given document
+    type Metadata = {
         filename: string;
         url: string;
     }

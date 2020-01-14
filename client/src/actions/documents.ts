@@ -20,7 +20,6 @@ import {
     UPDATE_UPLOAD_PROGRESS
 } from '../constants';
 
-// loadSOPs
 export const loadDocuments = () => {
     return (dispatch: Dispatch) => {
         axios.post('/documents/load_documents', { 'email': 'zach.lindner@hotmail.com' })
@@ -37,13 +36,13 @@ export const loadDocuments = () => {
     }
 };
 
-export const setDocuments = (sops: Array<SOP>) => action(SET_DOCUMENTS, sops);
+export const setDocuments = (documents: Array<Metadata>) => action(SET_DOCUMENTS, documents);
 
 /**
- * Action for opening the viewer modal for an SOP
- * @param sop the SOP being viewed
+ * Action for opening the viewer modal for a document
+ * @param document the document being viewed
  */
-export const openViewer = (sop: SOP) => action(OPEN_VIEWER, sop);
+export const openViewer = (document: Metadata) => action(OPEN_VIEWER, document);
 
 /**
  * Action for closing the viewer modal
@@ -51,10 +50,10 @@ export const openViewer = (sop: SOP) => action(OPEN_VIEWER, sop);
 export const closeViewer = () => action(CLOSE_VIEWER);
 
 /**
- * Action for opening the rename modal for an SOP
- * @param sop the SOP being renamed
+ * Action for opening the rename modal for a document
+ * @param document the document being renamed
  */
-export const openRename = (sop: SOP) => action(OPEN_RENAME, sop);
+export const openRename = (document: Metadata) => action(OPEN_RENAME, document);
 
 /**
  * Action for closing the rename modal
@@ -62,15 +61,15 @@ export const openRename = (sop: SOP) => action(OPEN_RENAME, sop);
 export const closeRename = () => action(CLOSE_RENAME);
 
 /**
- * Action for confirming the rename of an SOP
- * @param sop the SOP being renamed
- * @param newFilename the SOP's new filename
+ * Action for confirming the renaming of a document
+ * @param document the document being renamed
+ * @param newFilename the document's new filename
  */
-export const confirmRename = (sop: SOP, newFilename: string) => {
+export const confirmRename = (document: Metadata, newFilename: string) => {
     return (dispatch: Dispatch) => {
         // TODO rename, need email here to find file in db
-        if (newFilename !== '' && sop.filename !== newFilename) {
-            console.log('changing ' + sop.filename + ' to ' + newFilename);
+        if (newFilename !== '' && document.filename !== newFilename) {
+            console.log('changing ' + document.filename + ' to ' + newFilename);
         }
 
         dispatch(closeRename());
@@ -78,10 +77,10 @@ export const confirmRename = (sop: SOP, newFilename: string) => {
 };
 
 /**
- * Action for opening the delete modal for an SOP
- * @param sop the SOP being deleted
+ * Action for opening the delete modal for a document
+ * @param document the document being deleted
  */
-export const openDelete = (sop: SOP) => action(OPEN_DELETE, sop);
+export const openDelete = (document: Metadata) => action(OPEN_DELETE, document);
 
 /**
  * Action for closing the delete modal
@@ -89,13 +88,13 @@ export const openDelete = (sop: SOP) => action(OPEN_DELETE, sop);
 export const closeDelete = () => action(CLOSE_DELETE);
 
 /**
- * Action for confirming the deletion of an SOP
- * @param sop the sop being deleted
+ * Action for confirming the deletion of a document
+ * @param document the document being deleted
  */
-export const confirmDelete = (sop: SOP) => {
+export const confirmDelete = (document: Metadata) => {
     return (dispatch: Dispatch) => {
         // TODO delete, need email here to find file in db
-        console.log('deleting ' + sop.filename);
+        console.log('deleting ' + document.filename);
 
         dispatch(closeDelete());
     };

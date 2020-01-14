@@ -64,7 +64,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 }, dispatch);
 
 type Props = ReturnType<typeof mapDispatchToProps> & {
-    sop: SOP;
+    document: Metadata;
 };
 
 type State = {
@@ -84,13 +84,13 @@ class Options extends Component<Props, State> {
     onRenameClicked = (e: React.MouseEvent<HTMLLIElement>) => {
         e.stopPropagation();
         this.setState({ open: false });
-        this.props.openRename(this.props.sop);
+        this.props.openRename(this.props.document);
     }
 
     onDeleteClicked = (e: React.MouseEvent<HTMLLIElement>) => {
         e.stopPropagation();
         this.setState({ open: false });
-        this.props.openDelete(this.props.sop);
+        this.props.openDelete(this.props.document);
     }
 
     render() {

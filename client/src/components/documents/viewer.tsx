@@ -43,7 +43,7 @@ const Loader = `
 `;
 
 const mapStateToProps = (state: Types.State) => ({
-    sop: state.documents.currentSOP
+    document: state.documents.currentDocument
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
@@ -69,7 +69,7 @@ class Viewer extends Component<Props, State> {
                 style={{ overlay: { backgroundColor: 'rgba(0, 0, 0, 0.5)' } }}
             >
 
-                <PDF file={this.props.sop.url} onLoadSuccess={({ numPages }: any) => this.setState({ numPages })} loading={<MoonLoader size={30} css={Loader} />}>
+                <PDF file={this.props.document.url} onLoadSuccess={({ numPages }: any) => this.setState({ numPages })} loading={<MoonLoader size={30} css={Loader} />}>
                     {Array.from(new Array(this.state.numPages), (_, i) => (
                         <Page key={`page_${i + 1}`} pageNumber={i + 1} width={600} loading='' />
                     ))}
