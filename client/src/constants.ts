@@ -3,6 +3,8 @@
  * document actions
  */
 export const SET_DOCUMENTS = 'SET_DOCUMENTS';
+export const ADD_DOCUMENTS = 'ADD_DOCUMENTS';
+export const REMOVE_DOCUMENT = 'REMOVE_DOCUMENT';
 
 export const OPEN_VIEWER = 'OPEN_VIEWER';
 export const CLOSE_VIEWER = 'CLOSE_VIEWER';

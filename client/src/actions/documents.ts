@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import {
     SET_DOCUMENTS,
+    ADD_DOCUMENTS,
+    REMOVE_DOCUMENT,
     OPEN_VIEWER,
     CLOSE_VIEWER,
     OPEN_RENAME,
@@ -37,6 +39,11 @@ export const loadDocuments = () => {
 };
 
 export const setDocuments = (documents: Array<Metadata>) => action(SET_DOCUMENTS, documents);
+
+/**
+ * Action for removing a document from the documents array in DocumentsState
+ */
+export const removeDocument = (document: Metadata) => action(REMOVE_DOCUMENT, document);
 
 /**
  * Action for opening the viewer modal for a document
@@ -93,10 +100,17 @@ export const closeDelete = () => action(CLOSE_DELETE);
  */
 export const confirmDelete = (document: Metadata) => {
     return (dispatch: Dispatch) => {
-        // TODO delete, need email here to find file in db
-        console.log('deleting ' + document.filename);
+        axios.post('/documents/delete_document', { email: 'zach.lindner@hotmail.com', filename: document.filename })
+            .then(res => {
+                console.log(res);
 
-        dispatch(closeDelete());
+                // TODO remove file from documents array
+                dispatch(removeDocument(document));
+                dispatch(closeDelete());
+            })
+            .catch(err => {
+                console.log(err.response);
+            });
     };
 };
 
@@ -135,7 +149,7 @@ export const upload = (files: Array<File>) => {
             uploadSize += file.size;
         }
 
-        // delay 500ms to allow uploader to copmlete transition
+        // delay 500ms to allow uploader to complete transition
         setTimeout(() => axios.post('/documents/generate_signatures', filenames)
             .then(res => {
                 const signatures = res.data;
@@ -165,7 +179,8 @@ export const upload = (files: Array<File>) => {
                                     .catch(err => console.log(err.response));
 
                             if (i === signatures.length - 1) {
-                                dispatch(uploadSuccess());
+                                // TODO create signatures for new files
+                                dispatch(uploadSuccess()); // TODO pass the newly uploaded photos, add to documents array
                                 
                                 // TODO textract files
                             } else {

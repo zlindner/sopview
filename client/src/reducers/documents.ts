@@ -39,6 +39,9 @@ const documentsReducer = createReducer<DocumentsState, DocumentsAction>(initialS
     SET_DOCUMENTS: (state, action) => Object.assign({}, state, {
         documents: action.payload
     }),
+    REMOVE_DOCUMENT: (state, action) => Object.assign({}, state, {
+        documents: state.documents.filter(document => document !== action.payload)
+    }),
     OPEN_VIEWER: (state, action) => Object.assign({}, state, {
         viewerOpen: true,
         currentDocument: action.payload

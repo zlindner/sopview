@@ -54,6 +54,7 @@ def generate_signatures():
 
     return jsonify(signatures), 200
 
+# TODO change to add documents, allow adding multiple at a time rather than a request for each file
 @bp.route('/add_document', methods=['POST'])
 def add_document():
     email = request.get_json()['email']
@@ -72,6 +73,30 @@ def add_document():
 
     document = Document(filename, email)
     db.session.add(document)
+    db.session.commit()
+
+    return '', 200
+
+@bp.route('/delete_document', methods=['POST'])
+def delete_document():
+    email = request.get_json()['email']
+    filename = request.get_json()['filename']
+
+    if not email:
+        return 'Unauthorized', 403
+
+    if not filename:
+        return 'Error deleting document', 400
+
+    s3 = boto3.client('s3', region_name='us-east-2', config=Config(signature_version='s3v4'))
+    bucket = os.getenv('AWS_BUCKET')
+
+    try:
+        s3.delete_object(Bucket=bucket, Key=email + '/' + filename)
+    except ClientError as err:
+        return err, 400
+
+    Document.query.filter_by(filename=filename, email=email).delete()
     db.session.commit()
 
     return '', 200
