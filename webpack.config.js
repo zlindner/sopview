@@ -1,4 +1,4 @@
-const rimraf = require('rimraf');
+const rimraf = require('rimraf'); // windows
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -36,11 +36,7 @@ const appConfig = {
                     options: {
                         cacheDirectory: true,
                         babelrc: false,
-                        presets: [
-                            ['@babel/preset-env', { targets: { browsers: 'last 1 version' } }],
-                            '@babel/preset-typescript',
-                            '@babel/preset-react'
-                        ],
+                        presets: [['@babel/preset-env', { targets: { browsers: 'last 1 version' } }], '@babel/preset-typescript', '@babel/preset-react'],
                         plugins: [
                             ['@babel/plugin-proposal-decorators', { legacy: true }],
                             ['@babel/plugin-proposal-class-properties', { loose: true }],
