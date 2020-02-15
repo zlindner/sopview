@@ -13,7 +13,7 @@ rimraf('./build', () => {
 });
 
 const appConfig = {
-    entry: ['./client/index'],
+    entry: ['./client/src/index'],
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'bundle.js'
@@ -36,7 +36,11 @@ const appConfig = {
                     options: {
                         cacheDirectory: true,
                         babelrc: false,
-                        presets: [['@babel/preset-env', { targets: { browsers: 'last 1 version' } }], '@babel/preset-typescript', '@babel/preset-react'],
+                        presets: [
+                            ['@babel/preset-env', { targets: { browsers: 'last 1 version' } }],
+                            '@babel/preset-typescript',
+                            '@babel/preset-react'
+                        ],
                         plugins: [
                             ['@babel/plugin-proposal-decorators', { legacy: true }],
                             ['@babel/plugin-proposal-class-properties', { loose: true }],

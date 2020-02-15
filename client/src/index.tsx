@@ -1,11 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 
-import GlobalStyle from './components/globalStyle';
+import store, { history } from './redux/store';
+import GlobalStyle from './globalStyle';
 
 render(
-    <div>
+    <Provider store={store}>
+        <ConnectedRouter history={history}></ConnectedRouter>
+
         <GlobalStyle />
-    </div>,
+    </Provider>,
     document.getElementById('root')
 );

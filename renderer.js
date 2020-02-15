@@ -9,7 +9,8 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        backgroundColor: '#f9f9f9'
     });
 
     mainWindow.loadFile(path.join(__dirname, 'build/index.html'));
