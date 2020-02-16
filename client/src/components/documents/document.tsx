@@ -7,6 +7,7 @@ const Wrapper = styled.div`
     width: 225px;
     height: 250px;
     cursor: pointer;
+    background-color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     transition: box-shadow 100ms ease-in-out;
 
@@ -16,11 +17,7 @@ const Wrapper = styled.div`
 `;
 
 const Document = () => {
-    return (
-        <Wrapper>
-            <PDF></PDF>
-        </Wrapper>
-    );
+    return <Wrapper></Wrapper>;
 };
 
 export default Document;
