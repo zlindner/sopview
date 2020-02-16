@@ -1,6 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
 
-const routes = <Switch></Switch>;
+import Documents from './components/documents';
+
+const routes = (
+    <Switch>
+        <Route path='/' component={Documents} />
+    </Switch>
+);
 
 export default routes;

@@ -6,4 +6,8 @@ export default createGlobalStyle`
         padding: 0;
         background-color: #f9f9f9;
     }
+
+    div {
+        box-sizing: border-box;
+    }
 `;
