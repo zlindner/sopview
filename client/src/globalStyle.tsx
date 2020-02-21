@@ -11,6 +11,14 @@ export default createGlobalStyle`
         box-sizing: border-box;
     }
 
+    h2 {
+        margin: 0;
+        padding: 0;
+        color: #3f3f3f;
+        font-size: 32px;
+        font-weight: 600;
+    }
+
     div {
         box-sizing: border-box;
     }
