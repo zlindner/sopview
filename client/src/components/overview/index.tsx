@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div``;
 
-const Dashboard = () => {
+const Overview = () => {
     return <Wrapper></Wrapper>;
 };
 
-export default Dashboard;
+export default Overview;

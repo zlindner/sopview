@@ -6,12 +6,13 @@ import Document from './document';
 const Wrapper = styled.div``;
 
 const Grid = styled.div`
-    width: 100%;
+    width: calc(100% - 250px);
     display: grid;
-    grid-template-columns: repeat(auto-fill, 225px);
+    grid-template-columns: repeat(auto-fill, 300px);
     column-gap: 25px;
     row-gap: 25px;
     padding: 25px;
+    margin-left: 250px;
 `;
 
 const Documents = () => {
