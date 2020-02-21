@@ -1,13 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
 
-import Nav from './components/nav';
+import Sidebar from './components/sidebar';
 import Overview from './components/overview';
 import Documents from './components/documents';
 
 const routes = (
     <React.Fragment>
-        <Nav />
+        <Sidebar />
         <Switch>
             <Route path='/overview' component={Overview} />
             <Route path='/documents' component={Documents} />
