@@ -8,6 +8,7 @@ export default createGlobalStyle`
         font-family: Inter;
         overflow: hidden;
         user-select: none;
+        box-sizing: border-box;
     }
 
     div {

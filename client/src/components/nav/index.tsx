@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import overviewIcon from '../../assets/overview.png';
-import documentsIcon from '../../assets/documents.png';
+import OverviewIcon from '../../assets/overview.svg';
+import DocumentsIcon from '../../assets/documents.svg';
 
 const Wrapper = styled.div`
     width: 250px;
@@ -15,28 +15,48 @@ const Wrapper = styled.div`
 
     & li {
         width: 100%;
-        height: 30px;
+        height: 35px;
         display: flex;
         align-items: center;
-        margin-bottom: 20px;
-        /*background-color: #2660e1;*/
-        border-radius: 5px;
+        position: relative;
+        margin-bottom: 10px;
     }
 
     & img {
         width: 25px;
         height: 25px;
         position: absolute;
+        z-index: 1;
+    }
+
+    & svg {
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        left: 10px;
+        fill: #707070;
+        z-index: 1;
+    }
+
+    & a.active + svg {
+        fill: #ffffff;
     }
 
     & a {
-        margin-left: 40px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding-left: 50px;
         font-size: 16px;
         color: #707070;
+        border-radius: 5px;
+        box-sizing: border-box;
     }
 
     & a.active {
-        color: #2860e1;
+        color: #ffffff;
+        background-color: #2860e1;
     }
 `;
 
@@ -45,12 +65,12 @@ const Nav = () => {
         <Wrapper>
             <ul>
                 <li>
-                    <img src={overviewIcon} />
-                    <Link to='/overview'>Overview</Link>
+                    <NavLink to='/overview'>Overview</NavLink>
+                    <OverviewIcon />
                 </li>
                 <li>
-                    <img src={documentsIcon} />
-                    <Link to='/documents'>Documents</Link>
+                    <NavLink to='/documents'>Documents</NavLink>
+                    <DocumentsIcon />
                 </li>
             </ul>
         </Wrapper>

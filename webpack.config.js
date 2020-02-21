@@ -50,10 +50,22 @@ const appConfig = {
                 }
             },
             {
-                test: /\.(png|jpe?g|gif)$/i,
+                test: /\.(png|jpe?g|gif|otf)$/i,
                 use: [
                     {
                         loader: 'file-loader'
+                    }
+                ]
+            },
+            {
+                test: /\.svg$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader'
+                    },
+                    {
+                        loader: 'react-svg-loader'
                     }
                 ]
             }
