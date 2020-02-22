@@ -39,6 +39,11 @@ export default createGlobalStyle`
         color: #000000;
     }
 
+    button {
+        background-color: #ffffff;
+        border: none;
+    }
+
     @font-face {
         font-family: Inter;
         src: url(assets/font/Inter-Light.oft);

@@ -28,6 +28,7 @@ const Search = styled.div`
         border: 1px solid transparent;
         border-radius: 10px;
         outline: none;
+        box-sizing: border-box;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     }
 
@@ -48,6 +49,20 @@ const Search = styled.div`
     }
 `;
 
+const Add = styled.button`
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2860e1;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+`;
+
 const MenuBar = () => {
     return (
         <Wrapper>
@@ -55,6 +70,8 @@ const MenuBar = () => {
                 <input type='text' placeholder='Search documents' />
                 <SearchIcon />
             </Search>
+
+            <Add>Add Documents</Add>
         </Wrapper>
     );
 };
