@@ -42,6 +42,7 @@ export default createGlobalStyle`
     button {
         background-color: #ffffff;
         border: none;
+        outline: none;
     }
 
     @font-face {

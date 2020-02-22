@@ -51,6 +51,7 @@ const appConfig = {
             },
             {
                 test: /\.(png|jpe?g|gif|otf)$/i,
+                exclude: /node_modules/,
                 use: [
                     {
                         loader: 'file-loader'

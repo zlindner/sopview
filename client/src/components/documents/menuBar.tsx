@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import SearchIcon from '../../assets/documents/search.svg';
 
+const { dialog } = require('electron').remote;
+
 const Wrapper = styled.div`
     width: 100%;
     display: flex;
@@ -55,6 +57,7 @@ const Add = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 40px;
     background-color: #2860e1;
     border-radius: 10px;
     cursor: pointer;
@@ -71,9 +74,22 @@ const MenuBar = () => {
                 <SearchIcon />
             </Search>
 
-            <Add>Add Documents</Add>
+            <Add onClick={onClickAdd}>Add documents</Add>
         </Wrapper>
     );
+};
+
+const onClickAdd = () => {
+    dialog
+        .showOpenDialog({
+            properties: ['openFile', 'multiSelections']
+        })
+        .then(result => {
+            console.log(result);
+        })
+        .catch(err => {
+            console.error(err);
+        });
 };
 
 export default MenuBar;
