@@ -7,7 +7,9 @@
         "module": "esnext",
         "target": "es6",
         "jsx": "react",
-        "noStrictGenericChecks": true
+        "strict": true,
+        "noStrictGenericChecks": true,
+        "skipLibCheck": true
     },
     "include": ["client"]
 }

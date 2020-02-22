@@ -84,10 +84,14 @@ const onClickAdd = () => {
         .showOpenDialog({
             properties: ['openFile', 'multiSelections']
         })
-        .then(result => {
+        .then((result: any) => {
             console.log(result);
+
+            result.filePaths.forEach((path: string) => {
+                console.log(path);
+            });
         })
-        .catch(err => {
+        .catch((err: any) => {
             console.error(err);
         });
 };
