@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/documents';
 
+import * as actions from '../../actions/documents';
 import SearchIcon from '../../assets/documents/search.svg';
 
 const { dialog } = require('electron').remote;
@@ -87,29 +87,30 @@ const MenuBar = (props: Props) => {
                 <SearchIcon />
             </Search>
 
-            <Add onClick={() => onClickAdd(props)}>Add documents</Add>
+            <Add
+                onClick={() =>
+                    dialog
+                        .showOpenDialog({
+                            properties: ['openFile', 'multiSelections']
+                        })
+                        .then((result: any) => {
+                            let documents: { filename: string; path: string }[] = [];
+
+                            result.filePaths.forEach((path: string) => {
+                                let filename = path.replace(/^.*[\\\/]/, '');
+                                documents.push({ filename, path });
+                            });
+
+                            props.addDocuments(documents);
+                        })
+                        .catch((err: any) => {
+                            console.error(err);
+                        })
+                }
+            >
+                Add documents
+            </Add>
         </Wrapper>
     );
 };
-
-const onClickAdd = (props: Props) => {
-    dialog
-        .showOpenDialog({
-            properties: ['openFile', 'multiSelections']
-        })
-        .then((result: any) => {
-            let documents: { filename: string; path: string }[] = [];
-
-            result.filePaths.forEach((path: string) => {
-                let filename = path.replace(/^.*[\\\/]/, '');
-                documents.push({ filename, path });
-            });
-
-            props.addDocuments(documents);
-        })
-        .catch((err: any) => {
-            console.error(err);
-        });
-};
-
 export default connect(null, mapDispatchToProps)(MenuBar);

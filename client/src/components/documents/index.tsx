@@ -34,7 +34,7 @@ const Documents = (props: Props) => {
 
             <Grid>
                 {props.documents.map(doc => (
-                    <Document filename={doc.filename} path={doc.path} />
+                    <Document filename={doc.filename} path={doc.path} key={`doc_${doc.filename}`} />
                 ))}
             </Grid>
         </Wrapper>
