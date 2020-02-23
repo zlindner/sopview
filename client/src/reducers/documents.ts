@@ -14,6 +14,6 @@ const initialState: State = {
 export default createReducer<State, Action>(initialState, {
     ADD_DOCUMENTS: (state, action) =>
         Object.assign({}, state, {
-            documents: [...state.documents, action.payload]
+            documents: [...state.documents, ...action.payload]
         })
 });
