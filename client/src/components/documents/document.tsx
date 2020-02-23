@@ -23,10 +23,15 @@ const Wrapper = styled.div`
     }
 `;
 
-const Document = () => {
+type Props = {
+    filename: string;
+    path: string;
+};
+
+const Document = (props: Props) => {
     return (
         <Wrapper>
-            <span>Document</span>
+            <span>{props.filename}</span>
         </Wrapper>
     );
 };

@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/documents';
 
 import SearchIcon from '../../assets/documents/search.svg';
 
@@ -66,7 +69,17 @@ const Add = styled.button`
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;
 
-const MenuBar = () => {
+const mapDispatchToProps = (dispatch: Dispatch) =>
+    bindActionCreators(
+        {
+            addDocuments: actions.addDocuments
+        },
+        dispatch
+    );
+
+type Props = ReturnType<typeof mapDispatchToProps>;
+
+const MenuBar = (props: Props) => {
     return (
         <Wrapper>
             <Search>
@@ -74,26 +87,29 @@ const MenuBar = () => {
                 <SearchIcon />
             </Search>
 
-            <Add onClick={onClickAdd}>Add documents</Add>
+            <Add onClick={() => onClickAdd(props)}>Add documents</Add>
         </Wrapper>
     );
 };
 
-const onClickAdd = () => {
+const onClickAdd = (props: Props) => {
     dialog
         .showOpenDialog({
             properties: ['openFile', 'multiSelections']
         })
         .then((result: any) => {
-            console.log(result);
+            let documents: { filename: string; path: string }[] = [];
 
             result.filePaths.forEach((path: string) => {
-                console.log(path);
+                let filename = path.replace(/^.*[\\\/]/, '');
+                documents.push({ filename, path });
             });
+
+            props.addDocuments(documents);
         })
         .catch((err: any) => {
             console.error(err);
         });
 };
 
-export default MenuBar;
+export default connect(null, mapDispatchToProps)(MenuBar);

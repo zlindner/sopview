@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
+import Types from 'SopviewTypes';
 import MenuBar from './menuBar';
 import Document from './document';
 
@@ -17,7 +19,13 @@ const Grid = styled.div`
     row-gap: 25px;
 `;
 
-const Documents = () => {
+const mapStateToProps = (state: Types.State) => ({
+    documents: state.documents.documents
+});
+
+type Props = ReturnType<typeof mapStateToProps>;
+
+const Documents = (props: Props) => {
     return (
         <Wrapper>
             <h2>Documents</h2>
@@ -25,12 +33,12 @@ const Documents = () => {
             <MenuBar />
 
             <Grid>
-                <Document />
-                <Document />
-                <Document />
+                {props.documents.map(doc => (
+                    <Document filename={doc.filename} path={doc.path} />
+                ))}
             </Grid>
         </Wrapper>
     );
 };
 
-export default Documents;
+export default connect(mapStateToProps, null)(Documents);
