@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Options from './options';
+
 const Wrapper = styled.div`
-    display: flex;
     width: 200px;
     height: 225px;
+    display: flex;
+    position: relative;
     padding: 10px;
 
     border: 1px solid transparent;
@@ -18,7 +21,7 @@ const Wrapper = styled.div`
     }
 
     & span {
-        font-size: 18px;
+        font-size: 16px;
         color: #3f3f3f;
     }
 `;
@@ -32,6 +35,8 @@ const Document = (props: Props) => {
     return (
         <Wrapper>
             <span>{props.filename}</span>
+
+            <Options />
         </Wrapper>
     );
 };

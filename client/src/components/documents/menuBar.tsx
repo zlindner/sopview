@@ -106,8 +106,7 @@ const MenuBar = (props: Props) => {
                         .catch((err: any) => {
                             console.error(err);
                         })
-                }
-            >
+                }>
                 Add documents
             </Add>
         </Wrapper>
