@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import Types from 'SopviewTypes';
+import Types from 'Sopview';
 import MenuBar from './menuBar';
 import Document from './document';
 
@@ -33,8 +33,8 @@ const Documents = (props: Props) => {
             <MenuBar />
 
             <Grid>
-                {props.documents.map(doc => (
-                    <Document filename={doc.filename} path={doc.path} key={`doc_${doc.filename}`} />
+                {props.documents.map((doc: Types.Document) => (
+                    <Document filename={doc.filename} path={doc.path} bytes={doc.bytes} key={`doc_${doc.filename}`} />
                 ))}
             </Grid>
         </Wrapper>

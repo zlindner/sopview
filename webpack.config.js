@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const env = process.env.NODE_ENV.trim();
 
@@ -71,7 +72,8 @@ const appConfig = {
                 ]
             }
         ]
-    }
+    },
+    plugins: [new CopyPlugin([{ from: 'node_modules/pdfjs-dist/cmaps/', to: 'cmaps/' }])]
 };
 
 const developmentConfig = {

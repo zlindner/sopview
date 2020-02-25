@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Document as PDF, Page } from 'react-pdf/dist/entry.webpack';
 
 import Options from './options';
 
@@ -29,6 +30,7 @@ const Wrapper = styled.div`
 type Props = {
     filename: string;
     path: string;
+    bytes: { type: string; data: number[] };
 };
 
 const Document = (props: Props) => {
@@ -37,6 +39,17 @@ const Document = (props: Props) => {
             <span>{props.filename}</span>
 
             <Options />
+
+            <PDF
+                file={{ data: Buffer.from(JSON.stringify(props.bytes)) }}
+                renderMode='svg'
+                onLoadError={console.error}
+                options={{
+                    cMapUrl: 'cmaps/',
+                    cMapPacked: true
+                }}>
+                <Page pageIndex={0} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
+            </PDF>
         </Wrapper>
     );
 };

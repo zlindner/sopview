@@ -1,8 +1,9 @@
 import { ActionType, createReducer } from 'typesafe-actions';
 import * as actions from '../actions/documents';
+import Types from 'Sopview';
 
 export type State = Readonly<{
-    documents: { filename: string; path: string }[];
+    documents: Types.Document[];
 }>;
 
 export type Action = ActionType<typeof actions>;

@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import electron from 'electron';
 
 import * as actions from '../../actions/documents';
 import SearchIcon from '../../assets/documents/search.svg';
+import Types from 'Sopview';
 
 const { dialog } = require('electron').remote;
+const { ipcRenderer } = require('electron');
 
 const Wrapper = styled.div`
     width: 100%;
@@ -94,14 +97,10 @@ const MenuBar = (props: Props) => {
                             properties: ['openFile', 'multiSelections']
                         })
                         .then((result: any) => {
-                            let documents: { filename: string; path: string }[] = [];
-
-                            result.filePaths.forEach((path: string) => {
-                                let filename = path.replace(/^.*[\\\/]/, '');
-                                documents.push({ filename, path });
+                            electron.ipcRenderer.send('load-documents', result.filePaths);
+                            ipcRenderer.on('load-documents-complete', (event, documents) => {
+                                props.addDocuments(documents);
                             });
-
-                            props.addDocuments(documents);
                         })
                         .catch((err: any) => {
                             console.error(err);
@@ -112,4 +111,5 @@ const MenuBar = (props: Props) => {
         </Wrapper>
     );
 };
+
 export default connect(null, mapDispatchToProps)(MenuBar);
