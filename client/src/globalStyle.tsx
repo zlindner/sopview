@@ -23,6 +23,10 @@ export default createGlobalStyle`
         box-sizing: border-box;
     }
 
+    span {
+        color: #3f3f3f;
+    }
+
     ul {
         margin: 0;
         padding: 0;

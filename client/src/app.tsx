@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ConnectedRouter } from 'connected-react-router';
+import { setAppElement } from 'react-modal';
 import { hot } from 'react-hot-loader/root';
 
 import store, { persistor, history } from './redux/store';
@@ -19,5 +20,7 @@ const App = () => {
         </Provider>
     );
 };
+
+setAppElement('body');
 
 export default hot(App);

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Document as PDF, Page } from 'react-pdf/dist/entry.webpack';
 
+import Types from 'Sopview';
 import Options from './options';
+import Delete from './delete';
 import ErrorIcon from '../../../assets/documents/error.svg';
 
 const Wrapper = styled.div`
@@ -24,7 +26,6 @@ const Wrapper = styled.div`
 
     & span {
         font-size: 16px;
-        color: #3f3f3f;
     }
 `;
 
@@ -50,23 +51,26 @@ const Error = styled.div`
 `;
 
 type Props = {
-    filename: string;
-    path: string;
-    bytes: { type: string; data: number[] };
+    data: Types.Document;
 };
 
 const Document = (props: Props) => {
     const [error, setError] = useState(false);
+    // analyzed, setAnalyzed => use warning icon
+    // create small status component that shows error / needs analysis / etc depending on state
+    const [renaming, setRenaming] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     return (
         <Wrapper>
-            <span>{props.filename}</span>
+            <span>{props.data.filename}</span>
 
-            <Options />
+            <Options setRenaming={setRenaming} setDeleting={setDeleting} />
+            <Delete open={deleting} setDeleting={setDeleting} document={props.data} />
 
             {!error && (
                 <PDF
-                    file={{ data: Buffer.from(JSON.stringify(props.bytes)) }}
+                    file={{ data: Buffer.from(JSON.stringify(props.data.bytes)) }}
                     renderMode='svg'
                     onLoadError={() => setError(true)}
                     options={{

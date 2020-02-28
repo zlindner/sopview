@@ -45,7 +45,12 @@ const Modal = styled.ul`
     }
 `;
 
-const Options = () => {
+type Props = {
+    setRenaming: Function;
+    setDeleting: Function;
+};
+
+const Options = (props: Props) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -57,10 +62,20 @@ const Options = () => {
             transitionDuration={0}
             content={
                 <Modal>
-                    <li>
+                    <li
+                        onClick={(e: React.MouseEvent<HTMLLIElement>) => {
+                            e.stopPropagation();
+                            setOpen(false);
+                            props.setRenaming(true);
+                        }}>
                         <span>Rename</span>
                     </li>
-                    <li>
+                    <li
+                        onClick={(e: React.MouseEvent<HTMLLIElement>) => {
+                            e.stopPropagation();
+                            setOpen(false);
+                            props.setDeleting(true);
+                        }}>
                         <span>Delete</span>
                     </li>
                 </Modal>

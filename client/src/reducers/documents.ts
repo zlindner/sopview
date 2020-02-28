@@ -16,5 +16,9 @@ export default createReducer<State, Action>(initialState, {
     ADD_DOCUMENTS: (state, action) =>
         Object.assign({}, state, {
             documents: [...state.documents, ...action.payload]
+        }),
+    DELETE_DOCUMENT: (state, action) =>
+        Object.assign({}, state, {
+            documents: state.documents.filter(doc => doc !== action.payload)
         })
 });

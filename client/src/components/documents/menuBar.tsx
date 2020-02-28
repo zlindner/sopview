@@ -94,9 +94,12 @@ const MenuBar = (props: Props) => {
                 onClick={() =>
                     dialog
                         .showOpenDialog({
-                            properties: ['openFile', 'multiSelections']
+                            properties: ['openFile', 'multiSelections'],
+                            filters: [{ name: 'Documents', extensions: ['pdf'] }]
                         })
                         .then((result: any) => {
+                            // TODO don't allow adding of documents w/ duplicate filenames
+
                             electron.ipcRenderer.send('load-documents', result.filePaths);
                             ipcRenderer.on('load-documents-complete', (event, documents) => {
                                 props.addDocuments(documents);
