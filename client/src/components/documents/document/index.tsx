@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Document as PDF, Page } from 'react-pdf/dist/entry.webpack';
 
 import Options from './options';
+import ErrorIcon from '../../../assets/documents/error.svg';
 
 const Wrapper = styled.div`
     width: 200px;
@@ -27,6 +28,27 @@ const Wrapper = styled.div`
     }
 `;
 
+const Error = styled.div`
+    & svg {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 75px;
+        left: 50%;
+        transform: translateX(-50%);
+        fill: #3f3f3f;
+    }
+
+    & span {
+        font-size: 14px;
+        text-align: center;
+        position: absolute;
+        top: 130px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+`;
+
 type Props = {
     filename: string;
     path: string;
@@ -34,22 +56,33 @@ type Props = {
 };
 
 const Document = (props: Props) => {
+    const [error, setError] = useState(false);
+
     return (
         <Wrapper>
             <span>{props.filename}</span>
 
             <Options />
 
-            <PDF
-                file={{ data: Buffer.from(JSON.stringify(props.bytes)) }}
-                renderMode='svg'
-                onLoadError={console.error}
-                options={{
-                    cMapUrl: 'cmaps/',
-                    cMapPacked: true
-                }}>
-                <Page pageIndex={0} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
-            </PDF>
+            {!error && (
+                <PDF
+                    file={{ data: Buffer.from(JSON.stringify(props.bytes)) }}
+                    renderMode='svg'
+                    onLoadError={() => setError(true)}
+                    options={{
+                        cMapUrl: 'cmaps/',
+                        cMapPacked: true
+                    }}>
+                    <Page pageIndex={0} height={250} renderTextLayer={false} renderAnnotationLayer={false} loading='' />
+                </PDF>
+            )}
+
+            {error && (
+                <Error>
+                    <ErrorIcon />
+                    <span>Error loading PDF</span>
+                </Error>
+            )}
         </Wrapper>
     );
 };
