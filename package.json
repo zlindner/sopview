@@ -13,7 +13,7 @@
         "@hot-loader/react-dom": "^16.11.0",
         "@types/react": "^16.9.19",
         "@types/react-dom": "^16.9.5",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "babel-loader": "^8.0.6",
         "connected-react-router": "^6.7.0",
         "copy-webpack-plugin": "^5.1.1",
